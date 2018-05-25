@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">WIMMG</string>
+    <string name="title_name">Name</string>
+    <string name="title_category">Category</string>
+    <string name="string_date_format">dd-mm-yyyy</string>
+    <string name="title_time_bought">Time Bought.</string>
+    <string name="string_time_format">hh-mm</string>
+</resources>
