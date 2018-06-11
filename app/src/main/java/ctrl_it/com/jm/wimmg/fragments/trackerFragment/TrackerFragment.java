@@ -79,30 +79,6 @@ public class TrackerFragment extends Fragment {
     //==============================================================================================
     //          Listeners
     //==============================================================================================
-    @OnClick(R.id.fab_add_item)
-    public void addTrackedItem() {
-
-
-        AddItemDialogView mDialogView = new AddItemDialogView(getContext());
-
-        new MaterialDialog.Builder(getContext())
-                .title("Add Item")
-                .negativeText("cancel")
-                .positiveText("ok")
-                .customView(mDialogView, true)
-                .onPositive((dialog, which) -> {
-                            TrackedItem trackedItem = new TrackedItem.Builder()
-                                    .name(mDialogView.getName())
-                                    .cost(Double.valueOf(mDialogView.getCost()))
-                                    .category(mDialogView.getCategory())
-                                    .dateBought(mDialogView.getDateBought())
-                                    .timeOfDay(mDialogView.getTimeOfDay())
-                                    .build();
-                            mDialogView.getCost();
-                            RealmUtils.saveTrackItem(trackedItem);
-                        }
-                ).show();
-    }
 
 
     @Subscribe

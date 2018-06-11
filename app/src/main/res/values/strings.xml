@@ -6,4 +6,5 @@
     <string name="title_time_bought">Time Bought.</string>
     <string name="string_time_format">hh-mm</string>
     <string name="string_income">INCOME</string>
+    <string name="title_spending">SPENDING</string>
 </resources>
