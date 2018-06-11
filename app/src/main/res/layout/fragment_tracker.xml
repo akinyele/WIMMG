@@ -36,15 +36,4 @@
     </LinearLayout>
 
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_add_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_plus"
-        android:tint="@color/White"
-        app:layout_anchor="@+id/linearLayout"
-        app:layout_anchorGravity="right|bottom" />
-
-
 </android.support.design.widget.CoordinatorLayout>
