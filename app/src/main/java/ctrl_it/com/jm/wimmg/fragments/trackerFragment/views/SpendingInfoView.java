@@ -19,7 +19,6 @@ import ctrl_it.com.jm.wimmg.R;
 import ctrl_it.com.jm.wimmg.app.models.RealmModels.TrackedItem;
 import ctrl_it.com.jm.wimmg.ext.utils.CalcUtils;
 import ctrl_it.com.jm.wimmg.ext.utils.RealmUtils;
-import ctrl_it.com.jm.wimmg.ext.utils.Utils;
 
 public class SpendingInfoView extends FrameLayout {
 
@@ -42,7 +41,6 @@ public class SpendingInfoView extends FrameLayout {
         ButterKnife.bind(this);
 
         EventBus.getDefault().register(this);
-
         setupViews();
     }
 
@@ -65,30 +63,7 @@ public class SpendingInfoView extends FrameLayout {
     //==============================================================================================
     //              Listeners
     //==============================================================================================
-    @OnClick(R.id.fab_add_item)
-    public void addTrackedItem() {
 
-
-        AddItemDialogView mDialogView = new AddItemDialogView(getContext());
-
-        new MaterialDialog.Builder(getContext())
-                .title("Add Item")
-                .negativeText("cancel")
-                .positiveText("ok")
-                .customView(mDialogView, true)
-                .onPositive((dialog, which) -> {
-                            TrackedItem trackedItem = new TrackedItem.Builder()
-                                    .name(mDialogView.getName())
-                                    .cost(Double.valueOf(mDialogView.getCost()))
-                                    .category(mDialogView.getCategory())
-                                    .dateBought(mDialogView.getDateBought())
-                                    .timeOfDay(mDialogView.getTimeOfDay())
-                                    .build();
-                            mDialogView.getCost();
-                            RealmUtils.saveTrackItem(trackedItem);
-                        }
-                ).show();
-    }
 
 
     //==============================================================================================

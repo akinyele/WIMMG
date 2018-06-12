@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -24,9 +25,11 @@ import butterknife.OnClick;
 import ctrl_it.com.jm.wimmg.R;
 import ctrl_it.com.jm.wimmg.app.events.TrackedItemEvent;
 import ctrl_it.com.jm.wimmg.app.models.RealmModels.TrackedItem;
+import ctrl_it.com.jm.wimmg.ext.utils.CalcUtils;
 import ctrl_it.com.jm.wimmg.ext.utils.RealmUtils;
 import ctrl_it.com.jm.wimmg.fragments.trackerFragment.adapter.TrackedItemAdapter;
 import ctrl_it.com.jm.wimmg.fragments.trackerFragment.views.AddItemDialogView;
+import ctrl_it.com.jm.wimmg.fragments.trackerFragment.views.SpendingInfoView;
 
 /**
  * Created by akiny on 5/23/2018.
@@ -35,10 +38,20 @@ public class TrackerFragment extends Fragment {
 
     private static final String TAG = "TrackerFragment";
 
+    @BindView(R.id.text_budget_amount)
+    TextView mBudgetText;
+    @BindView(R.id.text_total)
+    TextView mTotalText;
+    @BindView(R.id.text_transactions_amount)
+    TextView mTransactionAmountText;
+
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
     TrackedItemAdapter itemAdapter;
+    SpendingInfoView mSpendingInfoView;
+    private String mTransactionAmount;
+    private String mTotal;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +64,8 @@ public class TrackerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tracker, container, false);
+
+
         return rootView;
     }
 
@@ -58,7 +73,7 @@ public class TrackerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-
+        mSpendingInfoView = new SpendingInfoView(getContext());
         setUpData();
     }
 
@@ -73,14 +88,48 @@ public class TrackerFragment extends Fragment {
         mRecyclerView.setAdapter(itemAdapter);
         itemAdapter.setData(trackedItems);
 
+
+        mTransactionAmount = String.valueOf(trackedItems.size());
+        mTotal = String.valueOf(CalcUtils.getTrackedItemsTotal(trackedItems));
+
+        mTotalText.setText(mTotal);
+        mTransactionAmountText.setText(mTransactionAmount);
+
     }
 
 
     //==============================================================================================
     //          Listeners
     //==============================================================================================
+    @OnClick(R.id.fab_add_item)
+    public void addTrackedItem() {
 
 
+        AddItemDialogView mDialogView = new AddItemDialogView(getContext());
+
+        new MaterialDialog.Builder(getContext())
+                .title("Add Item")
+                .negativeText("cancel")
+                .positiveText("ok")
+                .customView(mDialogView, true)
+                .onPositive((dialog, which) -> {
+                            TrackedItem trackedItem = new TrackedItem.Builder()
+                                    .name(mDialogView.getName())
+                                    .cost(Double.valueOf(mDialogView.getCost()))
+                                    .category(mDialogView.getCategory())
+                                    .dateBought(mDialogView.getDateBought())
+                                    .timeOfDay(mDialogView.getTimeOfDay())
+                                    .build();
+                            mDialogView.getCost();
+                            RealmUtils.saveTrackItem(trackedItem);
+                        }
+                ).show();
+    }
+
+
+    //==============================================================================================
+    //          Listeners
+    //==============================================================================================
     @Subscribe
     public void TrackedItemEvent(TrackedItemEvent item) {
         ArrayList<TrackedItem> trackedItems = RealmUtils.getTrackedItems();

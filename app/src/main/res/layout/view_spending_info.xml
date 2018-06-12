@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:layout_margin="15dp"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="4dp">
 
 
     <android.support.constraint.ConstraintLayout
@@ -30,9 +33,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            tools:text="# transactions"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/text_spending_heading" />
+            app:layout_constraintTop_toBottomOf="@+id/text_spending_heading"
+            tools:text="# transactions" />
 
         <TextView
             android:id="@+id/text_budget_amount"
@@ -40,9 +43,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            tools:text="total budget"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/text_total" />
+            app:layout_constraintTop_toBottomOf="@+id/text_total"
+            tools:text="total budget" />
 
 
         <TextView
@@ -52,10 +55,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            tools:text="$"
             android:textColor="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="$" />
 
 
         <android.support.design.widget.FloatingActionButton
@@ -68,6 +71,7 @@
             android:layout_marginTop="8dp"
             android:src="@drawable/ic_plus"
             android:tint="@color/White"
+            app:fabSize="auto"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

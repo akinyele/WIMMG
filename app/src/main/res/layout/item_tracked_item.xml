@@ -5,11 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/tracker_item_card_height"
     android:layout_gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:cardElevation="0dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/content_margin_small"
+        android:paddingRight="@dimen/content_margin_small">
 
 
         <ImageView
