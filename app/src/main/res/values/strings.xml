@@ -7,4 +7,21 @@
     <string name="string_time_format">hh-mm</string>
     <string name="string_income">INCOME</string>
     <string name="title_spending">SPENDING</string>
+
+
+    <!--Taken from https://www.financiallyfitandfab.com/budget-categories/-->
+    <array name="budget_categories">
+        <item name="housing">Housing</item>
+        <item name="food">Food</item>
+        <item name="utilities">Utilities</item>
+        <item name="transportation">Transportation</item>
+        <item name="insurance">Insurance</item>
+        <item name="medical">Medical</item>
+        <item name="personal_care">Personal Care</item>
+        <item name="giving">Giving</item>
+        <item name="educations">Education</item>
+        <item name="debt_reduction">Debt Reduction</item>
+        <item name="entertainment_fun">Entertainment &amp; Fun</item>
+        <item name="savings">Saving</item>
+    </array>
 </resources>
