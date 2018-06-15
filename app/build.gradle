@@ -4,7 +4,7 @@ apply plugin: 'realm-android'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "ctrl_it.com.jm.wimmg"
+        applicationId "akinyele.com.wimmg"
         minSdkVersion 24
         targetSdkVersion 27
         versionCode 1

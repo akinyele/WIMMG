@@ -11,17 +11,16 @@
 
     <!--Taken from https://www.financiallyfitandfab.com/budget-categories/-->
     <array name="budget_categories">
-        <item name="housing">Housing</item>
+        <item name="education">Education</item>
+        <item name="personal_care">Personal Care</item>
+        <item name="entertainment">Entertainment</item>
         <item name="food">Food</item>
-        <item name="utilities">Utilities</item>
-        <item name="transportation">Transportation</item>
+        <item name="giving">Giving</item>
+        <item name="housing">Housing</item>
         <item name="insurance">Insurance</item>
         <item name="medical">Medical</item>
-        <item name="personal_care">Personal Care</item>
-        <item name="giving">Giving</item>
-        <item name="educations">Education</item>
-        <item name="debt_reduction">Debt Reduction</item>
-        <item name="entertainment_fun">Entertainment &amp; Fun</item>
+        <item name="transportation">Transportation</item>
         <item name="savings">Saving</item>
+        <item name="utilities">Utilities</item>
     </array>
 </resources>
