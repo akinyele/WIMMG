@@ -51,4 +51,8 @@ dependencies {
     //color spectrum
     implementation 'com.thebluealliance:spectrum:0.7.1'
 
+    // stepper
+    implementation 'com.github.DanielMartinus:Stepper-Touch:0.6'
+
+
 }

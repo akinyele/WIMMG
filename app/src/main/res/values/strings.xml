@@ -7,6 +7,11 @@
     <string name="string_time_format">hh-mm</string>
     <string name="string_income">INCOME</string>
     <string name="title_spending">SPENDING</string>
+    <string name="string_day">Day</string>
+    <string name="string_week">Week</string>
+    <string name="string_month">Month</string>
+    <string name="string_year">Year</string>
+    <string name="how_much_was_bought">How much was bought?</string>
 
 
     <!--Taken from https://www.financiallyfitandfab.com/budget-categories/-->

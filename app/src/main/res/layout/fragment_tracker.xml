@@ -9,7 +9,6 @@
     android:weightSum="1">
 
 
-
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="126dp"
@@ -20,12 +19,36 @@
             android:layout_height="191dp"
             android:layout_marginBottom="8dp"
             android:background="@color/colorAccent"
+            android:gravity="center"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
+
+            <android.support.design.widget.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:visibility="gone"
+                android:background="@color/colorAccent"/>
+
+
+            <TextView
+                style="@style/TextMed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show spending for a"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+
+            <include
+                layout="@layout/view_date_filter_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/content_margin_small" />
 
 
         </LinearLayout>

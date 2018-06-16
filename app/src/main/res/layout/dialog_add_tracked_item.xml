@@ -125,4 +125,30 @@
     </LinearLayout>
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/text_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="@string/how_much_was_bought" />
+
+
+        <nl.dionsegijn.steppertouch.StepperTouch
+            android:id="@+id/stepper_amount"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/content_margin_small"
+            app:stepperBackgroundColor="@color/colorAccent">
+
+        </nl.dionsegijn.steppertouch.StepperTouch>
+
+    </LinearLayout>
+
+
 </LinearLayout>

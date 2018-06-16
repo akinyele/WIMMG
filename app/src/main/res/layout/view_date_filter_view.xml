@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:background="@color/colorAccent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <TextSwitcher
+            android:id="@+id/text_switcher_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/TextMed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/content_margin_small"
+                android:padding="@dimen/content_margin_small"
+                android:text="@string/string_day"
+                android:textColor="@color/white"
+                android:textStyle="normal" />
+
+            <TextView
+                style="@style/TextMed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/content_margin_small"
+                android:background="@drawable/drawable_border"
+                android:padding="@dimen/content_margin_small"
+                android:text="@string/string_day"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+        </TextSwitcher>
+
+        <TextSwitcher
+            android:id="@+id/text_switcher_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/TextMed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/content_margin_small"
+                android:padding="@dimen/content_margin_small"
+                android:text="@string/string_week"
+                android:textColor="@color/white"
+                android:textStyle="normal" />
+
+            <TextView
+                style="@style/TextMed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/content_margin_small"
+                android:background="@drawable/drawable_border"
+                android:padding="@dimen/content_margin_small"
+                android:text="@string/string_week"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+        </TextSwitcher>
+
+        <TextSwitcher
+            android:id="@+id/text_switcher_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/TextMed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/content_margin_small"
+                android:padding="@dimen/content_margin_small"
+                android:text="@string/string_month"
+                android:textColor="@color/white"
+                android:textStyle="normal"
+                tools:background="@drawable/drawable_border"
+                tools:textStyle="bold" />
+
+            <TextView
+                style="@style/TextMed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/content_margin_small"
+                android:background="@drawable/drawable_border"
+                android:padding="@dimen/content_margin_small"
+                android:text="@string/string_month"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+
+        </TextSwitcher>
+
+        <TextSwitcher
+            android:id="@+id/text_switcher__year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/TextMed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/content_margin_small"
+                android:padding="@dimen/content_margin_small"
+                android:text="@string/string_year"
+                android:textColor="@color/white"
+                android:textStyle="normal" />
+
+            <TextView
+                style="@style/TextMed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/content_margin_small"
+                android:background="@drawable/drawable_border"
+                android:padding="@dimen/content_margin_small"
+                android:text="@string/string_year"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+
+        </TextSwitcher>
+
+    </LinearLayout>
+
+</ScrollView>
