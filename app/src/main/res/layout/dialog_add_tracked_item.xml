@@ -120,8 +120,6 @@
             android:layout_margin="@dimen/content_margin_small"
             android:layout_marginStart="@dimen/content_margin_small"
             android:visibility="visible" />
-
-
     </LinearLayout>
 
 
@@ -141,7 +139,7 @@
         <nl.dionsegijn.steppertouch.StepperTouch
             android:id="@+id/stepper_amount"
             android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/content_margin_small"
             app:stepperBackgroundColor="@color/colorAccent">

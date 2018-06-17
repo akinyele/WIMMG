@@ -21,6 +21,7 @@ import akinyele.com.wimmg.fragments.trackerFragment.adapter.CustomSpinnerAdapter
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import nl.dionsegijn.steppertouch.StepperTouch;
 
 /**
  * Created by akiny
@@ -42,6 +43,9 @@ public class AddItemDialogView extends FrameLayout implements TimePickerDialog.O
 
     @BindView(R.id.spinner_category)
     Spinner mCategorySpinner;
+
+    @BindView(R.id.stepper_amount)
+    StepperTouch mAmountStepper;
 
 //    @BindView(R.id.fab_add_category)
 //    FloatingActionButton addCategoryFab;
@@ -85,6 +89,8 @@ public class AddItemDialogView extends FrameLayout implements TimePickerDialog.O
         mSpinnerAdapter = new CustomSpinnerAdapter(getContext());
         mCategorySpinner.setAdapter(mSpinnerAdapter);
 
+
+        mAmountStepper.stepper.setMin(1);
 
     }
 
@@ -176,6 +182,10 @@ public class AddItemDialogView extends FrameLayout implements TimePickerDialog.O
 
     public String getName() {
         return mNameEditText.getText().toString();
+    }
+
+    public int getAmount() {
+        return mAmountStepper.stepper.getValue();
     }
 
     public CategoryRealmModel getCategory() {

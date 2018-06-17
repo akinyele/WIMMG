@@ -8,6 +8,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import akinyele.com.wimmg.R;
 import akinyele.com.wimmg.app.models.RealmModels.CategoryRealmModel;
@@ -15,6 +16,7 @@ import akinyele.com.wimmg.app.models.RealmModels.TrackedItem;
 import akinyele.com.wimmg.ext.Const;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 
 /**
  * Created by akiny on 5/24/2018.
@@ -49,7 +51,11 @@ public class RealmUtils {
     public static ArrayList<TrackedItem> getTrackedItems() {
         mRealm = getRealmInstance();
         ArrayList<TrackedItem> items = new ArrayList<>();
-        items.addAll(mRealm.where(TrackedItem.class).findAll());
+        RealmResults<TrackedItem> results = mRealm.where(TrackedItem.class).findAll();
+
+        results.sort("name");
+
+        items.addAll(results);
 
         return items;
     }
@@ -96,6 +102,33 @@ public class RealmUtils {
                     }
                 }
         );
+    }
+
+    //==============================================================================================
+    //         Helpers
+    //==============================================================================================
+    public static ArrayList<ArrayList<TrackedItem>> nameGoupedTrackedItems(Collection<TrackedItem> trackedItems) {
+
+        ArrayList<ArrayList<TrackedItem>> groupedTrackedItems = new ArrayList<>();
+        ArrayList<TrackedItem> group = new ArrayList<>();
+
+
+        String tempName = "";
+        for (TrackedItem item : trackedItems) {
+            String itemName = item.getName().trim();
+
+            boolean newGroup = ((tempName.isEmpty() || !itemName.equalsIgnoreCase(tempName)));
+            if (newGroup) {
+                groupedTrackedItems.add(group);
+                group = new ArrayList<>();
+            }
+            group.add(item);
+            tempName = itemName;
+
+        }
+
+
+        return groupedTrackedItems;
     }
 
 }

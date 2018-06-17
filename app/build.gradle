@@ -52,7 +52,5 @@ dependencies {
     implementation 'com.thebluealliance:spectrum:0.7.1'
 
     // stepper
-    implementation 'com.github.DanielMartinus:Stepper-Touch:0.6'
-
-
+    implementation 'com.github.DanielMartinus:Stepper-Touch:0.6' //https://github.com/DanielMartinus/Stepper-Touch?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=5483
 }

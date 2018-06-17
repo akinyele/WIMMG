@@ -1,5 +1,7 @@
 package akinyele.com.wimmg.app.models.RealmModels;
 
+import java.util.UUID;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -9,13 +11,13 @@ import io.realm.annotations.PrimaryKey;
 public class TrackedItem extends RealmObject {
 
     @PrimaryKey
+    private String id = UUID.randomUUID().toString();
     private String name;
     private double cost;
     private int quantity;
     private CategoryRealmModel category;
     private String dateBought;
     private String timeOfDay;
-
 
     public TrackedItem() {
     }

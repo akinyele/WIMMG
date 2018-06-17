@@ -132,12 +132,11 @@ public class TrackerFragment extends BaseFragment {
                                 return;
                             }
 
-
                             TrackedItem trackedItem = new TrackedItem.Builder()
                                     .name(name)
                                     .cost(Double.valueOf(cost))
                                     .category(mDialogView.getCategory())
-                                    .quantity(1)
+                                    .quantity(mDialogView.getAmount())
                                     .dateBought(mDialogView.getDateBought())
                                     .timeOfDay(mDialogView.getTimeOfDay())
                                     .build();
@@ -146,6 +145,7 @@ public class TrackerFragment extends BaseFragment {
                             RealmUtils.saveTrackItem(trackedItem);
                             dialog.dismiss();
                         }
+
                 ).onNegative(
                 (dialog, which) -> dialog.dismiss())
                 .show();
