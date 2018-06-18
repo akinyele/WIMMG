@@ -17,12 +17,14 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
+import akinyele.com.wimmg.app.events.TrackedItemEvent;
 import akinyele.com.wimmg.app.models.RealmModels.TrackedItem;
 import akinyele.com.wimmg.ext.utils.CalcUtils;
 import akinyele.com.wimmg.ext.utils.RealmUtils;
 import akinyele.com.wimmg.ext.utils.Utils;
 import akinyele.com.wimmg.fragments.BaseFragment;
 import akinyele.com.wimmg.fragments.trackerFragment.views.AddItemDialogView;
+import akinyele.com.wimmg.fragments.trackerFragment.views.DateSelectionView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -34,7 +36,7 @@ import akinyele.com.wimmg.fragments.trackerFragment.views.SpendingInfoView;
 /**
  * Created by akiny on 5/23/2018.
  */
-public class TrackerFragment extends BaseFragment {
+public class TrackerFragment extends BaseFragment implements DateSelectionView.OnFilterSelectedListener {
 
     private static final String TAG = "TrackerFragment";
 
@@ -50,6 +52,8 @@ public class TrackerFragment extends BaseFragment {
 
     TrackedItemAdapter itemAdapter;
     SpendingInfoView mSpendingInfoView;
+    @BindView(R.id.view_date_filter_view)
+    DateSelectionView mDateSelectionView;
 
     private String mTransactionAmount;
     private String mTotal;
@@ -86,8 +90,7 @@ public class TrackerFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         itemAdapter = new TrackedItemAdapter(getContext());
         mRecyclerView.setAdapter(itemAdapter);
-        itemAdapter.setData(trackedItems);
-
+        setTrackedItemWithFilter(mDateSelectionView.getSelectedFilter());
 
         mTransactionAmount = String.valueOf(trackedItems.size());
         mTotal = String.valueOf(CalcUtils.getTrackedItemsTotal(trackedItems));
@@ -95,9 +98,9 @@ public class TrackerFragment extends BaseFragment {
         mTotalText.setText(mTotal);
         mTransactionAmountText.setText(mTransactionAmount);
 
+        mDateSelectionView.setOnFilterSelectedListener(this::onFilterSelected);
 
         setSpendingData();
-
     }
 
 
@@ -156,10 +159,11 @@ public class TrackerFragment extends BaseFragment {
     //          Listeners
     //==============================================================================================
     @Subscribe
-    public void TrackedItemEvent(akinyele.com.jm.wimmg.app.events.TrackedItemEvent item) {
-        ArrayList<TrackedItem> trackedItems = RealmUtils.getTrackedItems();
-        itemAdapter.setData(trackedItems);
+    public void TrackedItemEvent(TrackedItemEvent item) {
+//        ArrayList<TrackedItem> trackedItems = RealmUtils.getTrackedItems();
+//        itemAdapter.setData(trackedItems);
 
+        onFilterSelected(mDateSelectionView.getSelectedFilter());
 
         setSpendingData();
     }
@@ -167,10 +171,29 @@ public class TrackerFragment extends BaseFragment {
     //==============================================================================================
     //      Helpers
     //==============================================================================================
-    public void setSpendingData() {
+    private void setSpendingData() {
         double cost = CalcUtils.getTrackedItemsTotal(RealmUtils.getTrackedItems());
         mTotalText.setText(Utils.decimalFormat(cost));
     }
 
+    private void setTrackedItemWithFilter(int filter) {
+        switch (filter) {
+            case DateSelectionView.DAY:
+                ArrayList<TrackedItem> trackedItems = RealmUtils.getTrackedItems();
+                itemAdapter.setData(RealmUtils.getDayFilterTrackedItem(trackedItems));
+                break;
+            case DateSelectionView.MONTH:
+                break;
+            case DateSelectionView.WEEK:
+                break;
+            case DateSelectionView.YEAR:
+                break;
+        }
+    }
 
+
+    @Override
+    public void onFilterSelected(int selectedFiler) {
+        setTrackedItemWithFilter(selectedFiler);
+    }
 }

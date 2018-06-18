@@ -31,8 +31,8 @@
             <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                android:visibility="gone"
-                android:background="@color/colorAccent"/>
+                android:background="@color/colorAccent"
+                android:visibility="gone" />
 
 
             <TextView
@@ -44,8 +44,14 @@
                 android:textStyle="bold" />
 
 
-            <include
-                layout="@layout/view_date_filter_view"
+            <!--<include-->
+            <!--layout="@layout/view_date_filter_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="@dimen/content_margin_small" />-->
+
+            <akinyele.com.wimmg.fragments.trackerFragment.views.DateSelectionView
+                android:id="@+id/view_date_filter_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/content_margin_small" />

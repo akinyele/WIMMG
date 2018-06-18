@@ -101,7 +101,7 @@
         </TextSwitcher>
 
         <TextSwitcher
-            android:id="@+id/text_switcher__year"
+            android:id="@+id/text_switcher_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 

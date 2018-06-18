@@ -17,6 +17,7 @@ import java.util.Calendar;
 import akinyele.com.wimmg.R;
 import akinyele.com.wimmg.app.models.RealmModels.CategoryRealmModel;
 import akinyele.com.wimmg.ext.Const;
+import akinyele.com.wimmg.ext.utils.Utils;
 import akinyele.com.wimmg.fragments.trackerFragment.adapter.CustomSpinnerAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,6 +67,9 @@ public class AddItemDialogView extends FrameLayout implements TimePickerDialog.O
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String dateString = getDateString(year, month, dayOfMonth);
+        mCalendar.set(Calendar.YEAR, year);
+        mCalendar.set(Calendar.MONTH, month);
+        mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         mDateBoughtText.setText(dateString);
     }
 
@@ -88,7 +92,6 @@ public class AddItemDialogView extends FrameLayout implements TimePickerDialog.O
 
         mSpinnerAdapter = new CustomSpinnerAdapter(getContext());
         mCategorySpinner.setAdapter(mSpinnerAdapter);
-
 
         mAmountStepper.stepper.setMin(1);
 
@@ -172,8 +175,12 @@ public class AddItemDialogView extends FrameLayout implements TimePickerDialog.O
         return mDateBoughtText.getText().toString();
     }
 
+    /**
+     *
+     * @return dd/mm/yyyy
+     */
     public String getDateBought() {
-        return mDateBoughtText.getText().toString();
+        return mCalendar.get(Calendar.DAY_OF_MONTH) + "/" + mCalendar.get(Calendar.MONTH) + "/" + mCalendar.get(Calendar.YEAR);
     }
 
     public String getCost() {

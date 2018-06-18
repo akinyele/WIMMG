@@ -6,11 +6,13 @@ import android.util.Log;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 import akinyele.com.wimmg.R;
+import akinyele.com.wimmg.app.events.TrackedItemEvent;
 import akinyele.com.wimmg.app.models.RealmModels.CategoryRealmModel;
 import akinyele.com.wimmg.app.models.RealmModels.TrackedItem;
 import akinyele.com.wimmg.ext.Const;
@@ -43,7 +45,7 @@ public class RealmUtils {
                 realm -> {
                     realm.copyToRealmOrUpdate(item);
                 },
-                () -> EventBus.getDefault().post(new akinyele.com.jm.wimmg.app.events.TrackedItemEvent()),
+                () -> EventBus.getDefault().post(new TrackedItemEvent()),
                 error -> Log.e(TAG, "saveTrackItem: ", error)
         );
     }
@@ -129,6 +131,31 @@ public class RealmUtils {
 
 
         return groupedTrackedItems;
+    }
+
+    public static ArrayList<TrackedItem> getDayFilterTrackedItem(ArrayList<TrackedItem> trackedItems) {
+
+        ArrayList<TrackedItem> filtered = new ArrayList<>();
+
+        for (TrackedItem item : trackedItems) {
+
+            String[] date = item.getDateBought().split("/");
+            int dayOfMonth = Integer.valueOf(date[0]);
+            int month = Integer.valueOf(date[1]);
+            int year = Integer.valueOf(date[2]);
+
+            Calendar dateBought = Utils.getCalandar(year, month, dayOfMonth);
+            Calendar todady = Calendar.getInstance();
+
+            boolean sameDay = (dateBought.get(Calendar.YEAR) == todady.get(Calendar.YEAR)
+                    && dateBought.get(Calendar.DAY_OF_MONTH) == todady.get(Calendar.DAY_OF_MONTH)
+                    && dateBought.get(Calendar.MONTH) == todady.get(Calendar.MONTH));
+            if (sameDay) {
+                filtered.add(item);
+            }
+        }
+
+        return filtered;
     }
 
 }

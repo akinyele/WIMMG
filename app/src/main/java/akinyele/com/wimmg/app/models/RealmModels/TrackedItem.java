@@ -78,7 +78,7 @@ public class TrackedItem extends RealmObject {
         private double cost;
         private int quantity;
         private CategoryRealmModel category;
-        private String dateBought;
+        private String dateBought; // dd/mm/yyyy
         private String timeOfDay;
 
         public Builder() {
