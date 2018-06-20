@@ -123,16 +123,16 @@ public class RealmUtils {
         for (TrackedItem item : trackedItems) {
             String itemName = item.getName().trim();
 
-            boolean newGroup = ((tempName.isEmpty() || !itemName.equalsIgnoreCase(tempName)));
+            boolean newGroup = ((!tempName.isEmpty() && !itemName.equalsIgnoreCase(tempName)));
             if (newGroup) {
                 groupedTrackedItems.add(group);
                 group = new ArrayList<>();
             }
             group.add(item);
             tempName = itemName;
-
         }
 
+        if (!group.isEmpty()) groupedTrackedItems.add(group); // add the last group item;
 
         return groupedTrackedItems;
     }

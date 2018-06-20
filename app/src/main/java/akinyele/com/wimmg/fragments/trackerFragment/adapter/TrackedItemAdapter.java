@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import akinyele.com.wimmg.R;
 import akinyele.com.wimmg.app.models.RealmModels.CategoryRealmModel;
 import akinyele.com.wimmg.app.models.RealmModels.TrackedItem;
+import akinyele.com.wimmg.ext.utils.RealmUtils;
 import akinyele.com.wimmg.ext.utils.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,10 +26,12 @@ public class TrackedItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private Context mContext;
     private ArrayList<TrackedItem> mData;
+    private ArrayList<ArrayList<TrackedItem>> mGroupedItems;
 
     public TrackedItemAdapter(Context context) {
         this.mContext = context;
         this.mData = new ArrayList<>();
+        this.mGroupedItems = new ArrayList<>();
     }
 
     @NonNull
@@ -42,7 +45,9 @@ public class TrackedItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
 
-        TrackedItem trackedItem = mData.get(position);
+        //TrackedItem trackedItem = mData.get(position);
+        TrackedItem trackedItem = mGroupedItems.get(position).get(0);
+
         if (holder instanceof TrackedItemViewHolder) {
             TrackedItemViewHolder mHolder = (TrackedItemViewHolder) holder;
 
@@ -51,6 +56,7 @@ public class TrackedItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             mHolder.mCost.setText(Utils.decimalFormat(cost));
             mHolder.mNameText.setText(name);
+            mHolder.mAmount.setText(String.valueOf(mGroupedItems.get(position).size()));
             //mHolder.mCategoryImage.setImageDrawable();
 
             CategoryRealmModel category = trackedItem.getCategory();
@@ -64,7 +70,8 @@ public class TrackedItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        //return mData.size();
+        return mGroupedItems.size();
     }
 
     //==============================================================================================
@@ -72,6 +79,7 @@ public class TrackedItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     //==============================================================================================
     public void setData(ArrayList<TrackedItem> trackedItems) {
         mData = trackedItems;
+        mGroupedItems = RealmUtils.nameGoupedTrackedItems(trackedItems);
         notifyDataSetChanged();
     }
 
