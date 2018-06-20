@@ -35,6 +35,10 @@ public class RealmUtils {
                 .build());
     }
 
+    public static final int DAY_FILTER = 0;
+    public static final int WEEK_FILTER = 1;
+    public static final int MONTH_FILTER = 2;
+    public static final int YEAR_FILTER = 3;
 
     //==============================================================================================
     //          Tracked Items
@@ -133,7 +137,7 @@ public class RealmUtils {
         return groupedTrackedItems;
     }
 
-    public static ArrayList<TrackedItem> getDayFilterTrackedItem(ArrayList<TrackedItem> trackedItems) {
+    public static ArrayList<TrackedItem> getFilteredTrackedItems(ArrayList<TrackedItem> trackedItems, int filter) {
 
         ArrayList<TrackedItem> filtered = new ArrayList<>();
 
@@ -145,14 +149,27 @@ public class RealmUtils {
             int year = Integer.valueOf(date[2]);
 
             Calendar dateBought = Utils.getCalandar(year, month, dayOfMonth);
-            Calendar todady = Calendar.getInstance();
+            Calendar today = Calendar.getInstance();
 
-            boolean sameDay = (dateBought.get(Calendar.YEAR) == todady.get(Calendar.YEAR)
-                    && dateBought.get(Calendar.DAY_OF_MONTH) == todady.get(Calendar.DAY_OF_MONTH)
-                    && dateBought.get(Calendar.MONTH) == todady.get(Calendar.MONTH));
-            if (sameDay) {
-                filtered.add(item);
+            boolean sameDay = (dateBought.get(Calendar.YEAR) == today.get(Calendar.YEAR)
+                    && dateBought.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH)
+                    && dateBought.get(Calendar.MONTH) == today.get(Calendar.MONTH));
+
+            switch (filter) {
+                case DAY_FILTER:
+                    if (sameDay) filtered.add(item);
+                    break;
+                case WEEK_FILTER:
+                    if (Utils.isSameWeek(dateBought)) filtered.add(item);
+                    break;
+                case MONTH_FILTER:
+                    if (Utils.isSameMonth(dateBought)) filtered.add(item);
+                    break;
+                case YEAR_FILTER:
+                    if (Utils.isSameYear(dateBought)) filtered.add(item);
+                    break;
             }
+
         }
 
         return filtered;

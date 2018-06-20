@@ -43,5 +43,38 @@ public class Utils {
 
         return calendar;
     }
+
+    /**
+     * @param c1
+     * @return
+     */
+    public static boolean isSameWeek(Calendar c1) {
+        Calendar today = Calendar.getInstance();
+
+        int date1 = c1.get(Calendar.DAY_OF_MONTH);
+        int date2 = today.get(Calendar.DAY_OF_MONTH);
+
+
+        int dayOfWeekToday = today.get(Calendar.DAY_OF_WEEK);
+        int daysLeftInWeek = (7 - dayOfWeekToday);
+
+
+        boolean isLastWeek = !(date1 > (date2 - dayOfWeekToday));
+        boolean isFollowingWeek = (date1 > (date2 + daysLeftInWeek));
+
+        return !(isLastWeek || isFollowingWeek);
+    }
+
+    public static boolean isSameMonth(Calendar c1) {
+        Calendar c2 = Calendar.getInstance();
+
+        return c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH);
+    }
+
+    public static boolean isSameYear(Calendar c1) {
+        Calendar c2 = Calendar.getInstance();
+
+        return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR);
+    }
 }
 

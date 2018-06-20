@@ -55,8 +55,6 @@ public class TrackerFragment extends BaseFragment implements DateSelectionView.O
     @BindView(R.id.view_date_filter_view)
     DateSelectionView mDateSelectionView;
 
-    private String mTransactionAmount;
-    private String mTotal;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,15 +90,16 @@ public class TrackerFragment extends BaseFragment implements DateSelectionView.O
         mRecyclerView.setAdapter(itemAdapter);
         setTrackedItemWithFilter(mDateSelectionView.getSelectedFilter());
 
-        mTransactionAmount = String.valueOf(trackedItems.size());
-        mTotal = String.valueOf(CalcUtils.getTrackedItemsTotal(trackedItems));
-
-        mTotalText.setText(mTotal);
-        mTransactionAmountText.setText(mTransactionAmount);
 
         mDateSelectionView.setOnFilterSelectedListener(this::onFilterSelected);
 
-        setSpendingData();
+        itemAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                setSpendingData(itemAdapter.getData());
+            }
+        });
     }
 
 
@@ -162,31 +161,36 @@ public class TrackerFragment extends BaseFragment implements DateSelectionView.O
     public void TrackedItemEvent(TrackedItemEvent item) {
 //        ArrayList<TrackedItem> trackedItems = RealmUtils.getTrackedItems();
 //        itemAdapter.setData(trackedItems);
-
         onFilterSelected(mDateSelectionView.getSelectedFilter());
-
-        setSpendingData();
     }
 
     //==============================================================================================
     //      Helpers
     //==============================================================================================
-    private void setSpendingData() {
-        double cost = CalcUtils.getTrackedItemsTotal(RealmUtils.getTrackedItems());
+    private void setSpendingData(ArrayList<TrackedItem> trackedItems) {
+        double cost = CalcUtils.getTrackedItemsTotal(trackedItems);
         mTotalText.setText(Utils.decimalFormat(cost));
+
+        String mTransactionAmount = String.valueOf(trackedItems.size());
+        mTransactionAmountText.setText(mTransactionAmount);
+
     }
 
     private void setTrackedItemWithFilter(int filter) {
+        ArrayList<TrackedItem> trackedItems = RealmUtils.getTrackedItems();
+
         switch (filter) {
             case DateSelectionView.DAY:
-                ArrayList<TrackedItem> trackedItems = RealmUtils.getTrackedItems();
-                itemAdapter.setData(RealmUtils.getDayFilterTrackedItem(trackedItems));
+                itemAdapter.setData(RealmUtils.getFilteredTrackedItems(trackedItems, RealmUtils.DAY_FILTER));
                 break;
             case DateSelectionView.MONTH:
+                itemAdapter.setData(RealmUtils.getFilteredTrackedItems(trackedItems, RealmUtils.MONTH_FILTER));
                 break;
             case DateSelectionView.WEEK:
+                itemAdapter.setData(RealmUtils.getFilteredTrackedItems(trackedItems, RealmUtils.WEEK_FILTER));
                 break;
             case DateSelectionView.YEAR:
+                itemAdapter.setData(RealmUtils.getFilteredTrackedItems(trackedItems, RealmUtils.YEAR_FILTER));
                 break;
         }
     }

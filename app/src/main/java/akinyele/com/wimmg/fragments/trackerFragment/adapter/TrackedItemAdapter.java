@@ -75,6 +75,10 @@ public class TrackedItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         notifyDataSetChanged();
     }
 
+    public ArrayList<TrackedItem> getData() {
+        return mData;
+    }
+
 
     //==============================================================================================
     //          View Holder

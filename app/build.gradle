@@ -48,6 +48,11 @@ dependencies {
     //EventBus
     implementation "org.greenrobot:eventbus:$rootProject.eventBusVersion"
 
+
+
+    //==============================================================================================
+    //              Extras
+    //==============================================================================================
     //color spectrum
     implementation 'com.thebluealliance:spectrum:0.7.1'
 
