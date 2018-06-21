@@ -48,14 +48,14 @@ dependencies {
     //EventBus
     implementation "org.greenrobot:eventbus:$rootProject.eventBusVersion"
 
-
-
     //==============================================================================================
     //              Extras
     //==============================================================================================
     //color spectrum
     implementation 'com.thebluealliance:spectrum:0.7.1'
 
-    // stepper
-    implementation 'com.github.DanielMartinus:Stepper-Touch:0.6' //https://github.com/DanielMartinus/Stepper-Touch?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=5483
+    // stepper - https://github.com/DanielMartinus/Stepper-Touch?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=5483
+    implementation 'com.github.DanielMartinus:Stepper-Touch:0.6'
+
+    implementation "com.aurelhubert:ahbottomnavigation:2.1.0"
 }
