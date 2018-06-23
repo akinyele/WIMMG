@@ -8,12 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class BudgetFragment extends Fragment{
+import akinyele.com.wimmg.R;
+import akinyele.com.wimmg.ext.utils.ScreenUtils;
+import butterknife.ButterKnife;
 
+public class BudgetFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_budget, container, false);
+        ButterKnife.bind(this, view);
+        ScreenUtils.changeStatusBarColor(getActivity(), R.color.Gray);
+        return view;
     }
 }
