@@ -13,6 +13,7 @@ import java.util.List;
 
 import akinyele.com.wimmg.R;
 import akinyele.com.wimmg.app.events.TrackedItemEvent;
+import akinyele.com.wimmg.app.models.RealmModels.BudgetRealmModel;
 import akinyele.com.wimmg.app.models.RealmModels.CategoryRealmModel;
 import akinyele.com.wimmg.app.models.RealmModels.TrackedItem;
 import akinyele.com.wimmg.ext.Const;
@@ -82,6 +83,21 @@ public class RealmUtils {
 
 
     //==============================================================================================
+    //          Budget Item
+    //==============================================================================================
+    public static void saveBudgetItem(BudgetRealmModel budgetRealmModel) {
+        mRealm = getRealmInstance();
+
+        mRealm.executeTransactionAsync(
+                realm -> {
+
+                    realm.copyToRealmOrUpdate(budgetRealmModel);
+
+                }
+        );
+    }
+
+    //==============================================================================================
     //          Init
     //==============================================================================================
     public static void initCategoryData(Context context) {
@@ -109,8 +125,8 @@ public class RealmUtils {
                 }
         );
     }
-
     //==============================================================================================
+
     //         Helpers
     //==============================================================================================
     public static ArrayList<ArrayList<TrackedItem>> nameGoupedTrackedItems(Collection<TrackedItem> trackedItems) {
@@ -174,5 +190,6 @@ public class RealmUtils {
 
         return filtered;
     }
+
 
 }

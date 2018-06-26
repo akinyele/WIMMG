@@ -1,15 +1,18 @@
 package akinyele.com.wimmg.app.models.RealmModels;
 
-public class BudgetRealmModel {
+import io.realm.RealmModel;
+import io.realm.RealmObject;
 
-    private String amount;
+public class BudgetRealmModel extends RealmObject {
+
+    private double amount;
     private CategoryRealmModel category;
 
-    public String getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
