@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import akinyele.com.wimmg.R;
-import akinyele.com.wimmg.app.events.TrackedItemEvent;
 import akinyele.com.wimmg.app.models.RealmModels.BudgetRealmModel;
 import akinyele.com.wimmg.app.models.RealmModels.CategoryRealmModel;
 import akinyele.com.wimmg.app.models.RealmModels.TrackedItem;
@@ -47,10 +46,8 @@ public class RealmUtils {
     public static void saveTrackItem(TrackedItem item) {
         mRealm = getRealmInstance();
         mRealm.executeTransactionAsync(
-                realm -> {
-                    realm.copyToRealmOrUpdate(item);
-                },
-                () -> EventBus.getDefault().post(new TrackedItemEvent()),
+                realm -> realm.copyToRealmOrUpdate(item),
+                () -> EventBus.getDefault().post(new TrackedItem()),
                 error -> Log.e(TAG, "saveTrackItem: ", error)
         );
     }
@@ -72,6 +69,13 @@ public class RealmUtils {
         return mRealm.where(TrackedItem.class).equalTo("name", name).findFirst();
     }
 
+    public static ArrayList<TrackedItem> getTrackedItemForCategory(String categoryName) {
+        mRealm = getRealmInstance();
+
+        return new ArrayList<>(mRealm.where(TrackedItem.class)
+                .equalTo("category.name", categoryName)
+                .findAll());
+    }
 
     //==============================================================================================
     //          Categories
@@ -89,13 +93,16 @@ public class RealmUtils {
         mRealm = getRealmInstance();
 
         mRealm.executeTransactionAsync(
-                realm -> {
-
-                    realm.copyToRealmOrUpdate(budgetRealmModel);
-
-                }
+                realm -> realm.copyToRealmOrUpdate(budgetRealmModel),
+                () -> EventBus.getDefault().post(budgetRealmModel)
         );
     }
+
+    public static ArrayList<BudgetRealmModel> getBugetItems() {
+        mRealm = getRealmInstance();
+        return new ArrayList<>(mRealm.where(BudgetRealmModel.class).findAll());
+    }
+
 
     //==============================================================================================
     //          Init
@@ -120,13 +127,12 @@ public class RealmUtils {
                         } catch (NullPointerException e) {
                             Log.e(TAG, "initCategoryData: failed to create " + category + " realm object.", e);
                         }
-
                     }
                 }
         );
     }
-    //==============================================================================================
 
+    //==============================================================================================
     //         Helpers
     //==============================================================================================
     public static ArrayList<ArrayList<TrackedItem>> nameGoupedTrackedItems(Collection<TrackedItem> trackedItems) {
@@ -191,5 +197,12 @@ public class RealmUtils {
         return filtered;
     }
 
+    public static double getTotal(ArrayList<TrackedItem> trackedItems) {
+        double total = 0;
 
+        for (TrackedItem item : trackedItems) {
+            total = total + item.getCost() * item.getQuantity();
+        }
+        return total;
+    }
 }

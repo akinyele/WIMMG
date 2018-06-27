@@ -76,7 +76,17 @@ public class CategoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (lastSelectedPos == -1)
             return null;
 
-        return mData.get(lastSelectedPos);
+        CategoryRealmModel categoryRealmModel = new CategoryRealmModel();
+        categoryRealmModel.setColor(mData.get(lastSelectedPos).getColor());
+        categoryRealmModel.setImage(mData.get(lastSelectedPos).getImage());
+        categoryRealmModel.setName(mData.get(lastSelectedPos).getName());
+
+        return categoryRealmModel;
+    }
+
+    public void setData(ArrayList<CategoryRealmModel> categoryRealmModels) {
+        mData = categoryRealmModels;
+        notifyDataSetChanged();
     }
 
 
@@ -87,8 +97,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         @BindView(R.id.layout_content)
         View mContentView;
-        @BindView(R.id.view_category)
-        View categoryView;
+        //@BindView(R.id.view_category)
+        //View categoryView;
         @BindView(R.id.image_category)
         ImageView categoryImage;
         @BindView(R.id.text_category)
@@ -97,7 +107,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public CategoryItemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
             mContentView.setOnClickListener(
                     v -> {
                         lastSelectedPos = getAdapterPosition();

@@ -52,11 +52,12 @@ public class TrackedItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             TrackedItemViewHolder mHolder = (TrackedItemViewHolder) holder;
 
             String name = trackedItem.getName();
-            Double cost = trackedItem.getCost();
+            Double totalCost = RealmUtils.getTotal(mGroupedItems.get(position));
 
-            mHolder.mCost.setText(Utils.decimalFormat(cost));
+            mHolder.mCost.setText(Utils.decimalFormat(totalCost));
             mHolder.mNameText.setText(name);
-            mHolder.mAmount.setText(String.valueOf(mGroupedItems.get(position).size()));
+            String transactions = mGroupedItems.get(position).size() + " transactions";
+            mHolder.mTransactionAmount.setText(transactions);
             //mHolder.mCategoryImage.setImageDrawable();
 
             CategoryRealmModel category = trackedItem.getCategory();
@@ -96,8 +97,8 @@ public class TrackedItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         @BindView(R.id.text_name)
         TextView mNameText;
 
-        @BindView(R.id.text_amount)
-        TextView mAmount;
+        @BindView(R.id.text_transaction_amount)
+        TextView mTransactionAmount;
         @BindView(R.id.text_cost)
         TextView mCost;
         @BindView(R.id.view_category)

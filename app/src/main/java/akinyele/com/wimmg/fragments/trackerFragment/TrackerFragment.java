@@ -17,7 +17,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
-import akinyele.com.wimmg.app.events.TrackedItemEvent;
 import akinyele.com.wimmg.app.models.RealmModels.TrackedItem;
 import akinyele.com.wimmg.ext.utils.CalcUtils;
 import akinyele.com.wimmg.ext.utils.RealmUtils;
@@ -158,7 +157,7 @@ public class TrackerFragment extends BaseFragment implements DateSelectionView.O
     //          Listeners
     //==============================================================================================
     @Subscribe
-    public void TrackedItemEvent(TrackedItemEvent item) {
+    public void TrackedItemEvent(TrackedItem item) {
 //        ArrayList<TrackedItem> trackedItems = RealmUtils.getTrackedItems();
 //        itemAdapter.setData(trackedItems);
         onFilterSelected(mDateSelectionView.getSelectedFilter());

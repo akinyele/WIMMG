@@ -2,27 +2,20 @@ package akinyele.com.wimmg.fragments.budgetFragment.views;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
-import com.tmall.ultraviewpager.UltraViewPager;
-import com.tmall.ultraviewpager.UltraViewPagerAdapter;
-import com.tmall.ultraviewpager.transformer.UltraDepthScaleTransformer;
-
-import java.util.ArrayList;
-import java.util.Collection;
+import com.azoft.carousellayoutmanager.CarouselLayoutManager;
+import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
+import com.azoft.carousellayoutmanager.CenterScrollListener;
 
 import akinyele.com.wimmg.R;
 import akinyele.com.wimmg.app.models.RealmModels.CategoryRealmModel;
 import akinyele.com.wimmg.ext.utils.RealmUtils;
+import akinyele.com.wimmg.fragments.trackerFragment.adapter.CategoriesAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -33,8 +26,8 @@ public class CreateBudgetDialog extends FrameLayout {
     EditText budgeAmountEditText;
     @BindView(R.id.range_spinner)
     Spinner rangeSpinner;
-    @BindView(R.id.ultra_viewpager)
-    UltraViewPager mCategoryUltraViewpager;
+    @BindView(R.id.recycler_category)
+    RecyclerView mCategoryRecycler;
 
     private static final int DAY = 0;
     private static final int WEEK = 1;
@@ -42,7 +35,7 @@ public class CreateBudgetDialog extends FrameLayout {
     private static final int YEAR = 3;
 
     private String[] bugetRangePeriods = {"Day", "Week", "Month", "Year"};
-    private CustomAdapter adapter;
+    private CategoriesAdapter mCategoriesAdapter;
 
 
     public CreateBudgetDialog(@NonNull Context context) {
@@ -58,7 +51,13 @@ public class CreateBudgetDialog extends FrameLayout {
     //==============================================================================================
     public void init() {
 
-        gi
+        mCategoriesAdapter = new CategoriesAdapter(getContext());
+        mCategoryRecycler.setAdapter(mCategoriesAdapter);
+
+        CarouselLayoutManager carouselLayoutManager = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, true);
+        carouselLayoutManager.setPostLayoutListener(new CarouselZoomPostLayoutListener());
+        mCategoryRecycler.setLayoutManager(carouselLayoutManager);
+        mCategoryRecycler.addOnScrollListener(new CenterScrollListener());
 
         ArrayAdapter<String> periodAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, bugetRangePeriods);
         rangeSpinner.setAdapter(periodAdapter);
@@ -69,13 +68,17 @@ public class CreateBudgetDialog extends FrameLayout {
     //          Getters
     //==============================================================================================
     public CategoryRealmModel getCategory() {
-
-        return adapter.getCategory(mCategoryUltraViewpager.getCurrentItem()); //
+        return mCategoriesAdapter.getSelectedCategory();
     }
 
-    public double getAmount() {
+    public Double getAmount() {
 
-        Double amountToSpend = Double.valueOf(budgeAmountEditText.getText().toString());
+        String doubleString = budgeAmountEditText.getText().toString();
+
+        if (doubleString.isEmpty())
+            return null;
+
+        Double amountToSpend = Double.valueOf(doubleString);
 
         int period = rangeSpinner.getSelectedItemPosition();
 
@@ -94,61 +97,5 @@ public class CreateBudgetDialog extends FrameLayout {
         return amountToSpend;
     }
 
-
-    //==============================================================================================
-    //          Classes
-    //==============================================================================================
-    public class CustomAdapter extends PagerAdapter {
-
-        Context mContext;
-
-        ArrayList<CategoryRealmModel> mCategories;
-
-
-        public CustomAdapter(Context context, Collection<CategoryRealmModel> mCategories) {
-            this.mCategories = new ArrayList<>(mCategories);
-            this.mContext = context;
-        }
-
-        @NonNull
-        @Override
-        public Object instantiateItem(@NonNull ViewGroup container, int position) {
-
-            CategoryRealmModel categoryRealmModel = mCategories.get(position);
-
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            View view = inflater.inflate(R.layout.item_category_item, container, false);
-
-            TextView categoryTextView = view.findViewById(R.id.text_category);
-            ImageView categoryImage = view.findViewById(R.id.image_category);
-
-            categoryImage.setImageDrawable(getContext().getDrawable(categoryRealmModel.getImage()));
-            categoryTextView.setText(categoryRealmModel.getName());
-
-            container.addView(view);
-
-            return container;
-        }
-
-        @Override
-        public int getCount() {
-            return mCategories.size();
-        }
-
-        @Override
-        public void destroyItem(ViewGroup collection, int position, Object view) {
-            collection.removeView((View) view);
-        }
-
-        @Override
-        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-            return true;
-        }
-
-        public CategoryRealmModel getCategory(int position) {
-
-            return mCategories.get(position);
-        }
-    }
 }
 
