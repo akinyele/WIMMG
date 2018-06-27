@@ -29,11 +29,6 @@ public class RealmUtils {
 
     private static Realm mRealm;
 
-    private static Realm getRealmInstance() {
-        return Realm.getInstance(new RealmConfiguration.Builder()
-                .deleteRealmIfMigrationNeeded()
-                .build());
-    }
 
     public static final int DAY_FILTER = 0;
     public static final int WEEK_FILTER = 1;
@@ -44,7 +39,7 @@ public class RealmUtils {
     //          Tracked Items
     //==============================================================================================
     public static void saveTrackItem(TrackedItem item) {
-        mRealm = getRealmInstance();
+        mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
         mRealm.executeTransactionAsync(
                 realm -> realm.copyToRealmOrUpdate(item),
                 () -> EventBus.getDefault().post(new TrackedItem()),
@@ -53,7 +48,7 @@ public class RealmUtils {
     }
 
     public static ArrayList<TrackedItem> getTrackedItems() {
-        mRealm = getRealmInstance();
+        mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
         ArrayList<TrackedItem> items = new ArrayList<>();
         RealmResults<TrackedItem> results = mRealm.where(TrackedItem.class).findAll();
 
@@ -65,12 +60,12 @@ public class RealmUtils {
     }
 
     public static TrackedItem getTrackedItem(String name) {
-        mRealm = getRealmInstance();
+        mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
         return mRealm.where(TrackedItem.class).equalTo("name", name).findFirst();
     }
 
     public static ArrayList<TrackedItem> getTrackedItemForCategory(String categoryName) {
-        mRealm = getRealmInstance();
+        mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
 
         return new ArrayList<>(mRealm.where(TrackedItem.class)
                 .equalTo("category.name", categoryName)
@@ -81,7 +76,7 @@ public class RealmUtils {
     //          Categories
     //==============================================================================================
     public static Collection<CategoryRealmModel> getCategories() {
-        mRealm = getRealmInstance();
+        mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
         return mRealm.where(CategoryRealmModel.class).findAll();
     }
 
@@ -90,7 +85,7 @@ public class RealmUtils {
     //          Budget Item
     //==============================================================================================
     public static void saveBudgetItem(BudgetRealmModel budgetRealmModel) {
-        mRealm = getRealmInstance();
+        mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
 
         mRealm.executeTransactionAsync(
                 realm -> realm.copyToRealmOrUpdate(budgetRealmModel),
@@ -99,7 +94,7 @@ public class RealmUtils {
     }
 
     public static ArrayList<BudgetRealmModel> getBugetItems() {
-        mRealm = getRealmInstance();
+        mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
         return new ArrayList<>(mRealm.where(BudgetRealmModel.class).findAll());
     }
 
@@ -109,7 +104,7 @@ public class RealmUtils {
     //==============================================================================================
     public static void initCategoryData(Context context) {
 
-        mRealm = getRealmInstance();
+        mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
         String[] categories = context.getResources().getStringArray(R.array.budget_categories);
         HashMap<String, Integer> colorHash = Const.getCategoriesColorHashTable();
         HashMap<String, Integer> imageHash = Const.getCategoriesImagesHashTable();

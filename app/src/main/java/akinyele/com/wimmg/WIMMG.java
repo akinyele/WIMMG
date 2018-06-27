@@ -16,6 +16,10 @@ public class WIMMG extends Application {
     public void onCreate() {
         super.onCreate();
         Realm.init(this);
+        Realm.setDefaultConfiguration(new RealmConfiguration.Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build());
+
         dataSetup();
     }
 
