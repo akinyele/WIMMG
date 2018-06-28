@@ -1,5 +1,6 @@
 package akinyele.com.wimmg.fragments.trackerFragment.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +50,9 @@ public class CustomSpinnerAdapter extends BaseAdapter {
 
         CategoryRealmModel categoryRealmModel = mCategoryRealmModels.get(i);
 
+        @SuppressLint("ViewHolder")
         View spinnerView = LayoutInflater.from(mContext).inflate(R.layout.spinner_category_item, null);
+
         View colorStripView = spinnerView.findViewById(R.id.view_color_strip);
         TextView categoryText = spinnerView.findViewById(R.id.text_category);
 
@@ -58,11 +61,4 @@ public class CustomSpinnerAdapter extends BaseAdapter {
 
         return spinnerView;
     }
-
-
-    public void get() {
-
-    }
-
-
 }

@@ -17,7 +17,20 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_category"
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="100dp"
+        android:layout_marginBottom="@dimen/content_margin_small"
+        android:layout_marginTop="@dimen/content_margin_small" />
+
+
+    <TextView
+        android:id="@+id/text_add_new_category"
+        style="@style/TextSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_margin="@dimen/content_margin_small"
+        android:text="+ Add new Category"
+        android:textColor="@color/colorAccent" />
 
 
     <TextView

@@ -8,16 +8,18 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.azoft.carousellayoutmanager.CenterScrollListener;
 
 import akinyele.com.wimmg.R;
 import akinyele.com.wimmg.app.models.RealmModels.CategoryRealmModel;
-import akinyele.com.wimmg.ext.utils.RealmUtils;
 import akinyele.com.wimmg.fragments.trackerFragment.adapter.CategoriesAdapter;
+import akinyele.com.wimmg.fragments.trackerFragment.views.CreateCategoryDialog;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class CreateBudgetDialog extends FrameLayout {
 
@@ -61,6 +63,30 @@ public class CreateBudgetDialog extends FrameLayout {
 
         ArrayAdapter<String> periodAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, bugetRangePeriods);
         rangeSpinner.setAdapter(periodAdapter);
+    }
+
+
+    //==============================================================================================
+    //          Listener
+    //==============================================================================================
+    @OnClick(R.id.text_add_new_category)
+    public void addNewCategory() {
+
+        CreateCategoryDialog dialogView = new CreateCategoryDialog(getContext());
+
+        new MaterialDialog.Builder(getContext())
+                .title("New Category")
+                .autoDismiss(false)
+                .customView(dialogView, false)
+                .onPositive(
+                        (dialog, which) -> {
+                            dialog.dismiss();
+                        }
+                )
+                .onNegative(
+                        (dialog, which) -> dialog.dismiss()
+                ).positiveText("Add Category").negativeText("cancel")
+                .show();
     }
 
 

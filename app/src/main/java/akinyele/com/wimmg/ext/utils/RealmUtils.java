@@ -77,7 +77,7 @@ public class RealmUtils {
     //==============================================================================================
     public static Collection<CategoryRealmModel> getCategories() {
         mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
-        return mRealm.where(CategoryRealmModel.class).findAll();
+        return mRealm.where(CategoryRealmModel.class).findAll().sort("name");
     }
 
 
