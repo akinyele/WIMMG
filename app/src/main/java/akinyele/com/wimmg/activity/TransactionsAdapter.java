@@ -52,7 +52,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mHolder.deleteImageView.setOnClickListener(
                     v -> {
                         mData.remove(position);
-                        RealmUtils.removeTrackedItem(trackedItem);
+                        RealmUtils.removeTrackedItem(trackedItem.getId());
                         notifyDataSetChanged();
                     }
             );
@@ -64,6 +64,11 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemCount() {
         return mData.size();
+    }
+
+    public void setData(ArrayList<TrackedItem> data) {
+        mData = data;
+        notifyDataSetChanged();
     }
 
 

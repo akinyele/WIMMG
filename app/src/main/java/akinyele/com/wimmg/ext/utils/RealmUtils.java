@@ -59,13 +59,18 @@ public class RealmUtils {
         return mRealm.where(TrackedItem.class).equalTo("name", name).findFirst();
     }
 
-    public static void removeTrackedItem(TrackedItem trackedItem) {
+    public static void removeTrackedItem(String id) {
         mRealm = Realm.getInstance(mConfiguration);
-        try {
-            mRealm.where(BudgetRealmModel.class).equalTo("id", trackedItem.getId()).findFirst();
-        } catch (NullPointerException ignored) {
-            Log.e(TAG, "removeBudgetItem: failed to remove item", ignored);
-        }
+        mRealm.executeTransactionAsync(
+                realm -> {
+                    try {
+                        realm.where(BudgetRealmModel.class).equalTo("id", id).findFirst();
+                    } catch (NullPointerException ignored) {
+                        Log.e(TAG, "removeBudgetItem: failed to remove item", ignored);
+                    }
+                }
+        );
+
     }
 
     public static ArrayList<TrackedItem> getTrackedItemForCategory(String categoryName) {
@@ -105,13 +110,20 @@ public class RealmUtils {
         );
     }
 
-    public void removeBudgetItem(String categoryName) {
+    public static void removeBudgetItem(String categoryName) {
         mRealm = Realm.getInstance(mConfiguration);
-        try {
-            mRealm.where(BudgetRealmModel.class).equalTo("category.name", categoryName).findFirst().deleteFromRealm();
-        } catch (NullPointerException ignored) {
-            Log.e(TAG, "removeBudgetItem: failed to remove item", ignored);
-        }
+
+        mRealm.executeTransactionAsync(
+                realm -> {
+                    try {
+                        realm.where(BudgetRealmModel.class).equalTo("category.name", categoryName).findFirst().deleteFromRealm();
+                    } catch (NullPointerException ignored) {
+                        Log.e(TAG, "removeBudgetItem: failed to remove item", ignored);
+                        EventBus.getDefault().post(new BudgetRealmModel());
+                    }
+
+                }
+        );
     }
 
     public static ArrayList<BudgetRealmModel> getBudgetItems() {

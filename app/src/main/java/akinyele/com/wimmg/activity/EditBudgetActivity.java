@@ -19,6 +19,7 @@ import akinyele.com.wimmg.app.models.RealmModels.CategoryRealmModel;
 import akinyele.com.wimmg.ext.Constants;
 import akinyele.com.wimmg.ext.utils.RealmUtils;
 import akinyele.com.wimmg.fragments.trackerFragment.adapter.CategoriesAdapter;
+import akinyele.com.wimmg.fragments.trackerFragment.adapter.TrackedItemAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -89,6 +90,12 @@ public class EditBudgetActivity extends BaseActivity {
         mBudgetAmountEditText.setText(String.valueOf(mBugetItem.getAmount()));
 
 
+        TransactionsAdapter trackedItemAdapter = new TransactionsAdapter(this);
+        trackedItemAdapter.setData(RealmUtils.getTrackedItemForCategory(mBugetItem.getCategory().getName()));
+
+        mTransactionsRecycler.setLayoutManager(new LinearLayoutManager(this));
+        mTransactionsRecycler.setAdapter(trackedItemAdapter);
+
     }
 
 
@@ -105,11 +112,16 @@ public class EditBudgetActivity extends BaseActivity {
         }
 
         CategoryRealmModel categoryRealmModel = categoriesAdapter.getSelectedCategory();
+        if (categoryRealmModel == null) {
+            showMessage("Please select a category");
+            return;
+        }
+
+
         BudgetRealmModel budgetItem = new BudgetRealmModel();
         budgetItem.setAmount(Double.valueOf(amount));
         budgetItem.setCategory(categoryRealmModel);
         budgetItem.setId(mBugetItem.getId());
-
 
         RealmUtils.saveBudgetItem(budgetItem);
         finish();

@@ -100,6 +100,7 @@ public class BudgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 .autoDismiss(false)
                                 .onPositive(
                                         (dialog, which) -> {
+                                            RealmUtils.removeBudgetItem(budgetItem.getCategory().getName());
                                             notifyDataSetChanged();
                                             mHolder.mSwipeRevealLayout.close(true);
                                             dialog.dismiss();
