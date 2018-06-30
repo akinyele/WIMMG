@@ -62,4 +62,7 @@ dependencies {
     implementation "com.azoft.carousellayoutmanager:carousel:1.2.4"
 
     implementation "com.github.rtugeek:colorseekbar:1.7.2"
+
+    implementation "com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1"
+
 }

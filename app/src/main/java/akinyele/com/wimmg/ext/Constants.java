@@ -9,9 +9,13 @@ import akinyele.com.wimmg.R;
 /**
  * Created by akiny on 5/23/2018.
  */
-public class Const {
+public class Constants {
 
     public static final String PREF_TAX = "tax";
+
+
+    public static final String EXTRA_CATEOGORY_NAME = "category_name";
+
 
     public static final String month[] = {
             "Jan",

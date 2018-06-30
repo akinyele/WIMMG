@@ -1,6 +1,8 @@
 package akinyele.com.wimmg.ext.utils;
 
 import android.app.Activity;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,5 +26,18 @@ public class ScreenUtils {
 
         // finally change the color
         window.setStatusBarColor(ContextCompat.getColor(activity, statusBarColor));
+    }
+
+
+    public static ColorStateList getSimpleColorStateList(int[] colors) {
+        int[][] states = new int[][]{
+                new int[]{android.R.attr.state_enabled}, // enabled
+                new int[]{-android.R.attr.state_enabled}, // disabled
+                new int[]{-android.R.attr.state_checked}, // unchecked
+                new int[]{android.R.attr.state_pressed}  // pressed
+        };
+
+
+        return new ColorStateList(states, colors);
     }
 }

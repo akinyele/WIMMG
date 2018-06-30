@@ -9,7 +9,7 @@ import io.realm.annotations.PrimaryKey;
 public class BudgetRealmModel extends RealmObject {
 
     @PrimaryKey
-    private String categoryName;
+    private String id = UUID.randomUUID().toString();
     private CategoryRealmModel category;
     private double amount;
 
@@ -29,11 +29,11 @@ public class BudgetRealmModel extends RealmObject {
         this.category = category;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public String getId() {
+        return id;
     }
 }

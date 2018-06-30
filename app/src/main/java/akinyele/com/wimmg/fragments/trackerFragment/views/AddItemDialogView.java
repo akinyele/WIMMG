@@ -6,7 +6,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -16,8 +15,7 @@ import java.util.Calendar;
 
 import akinyele.com.wimmg.R;
 import akinyele.com.wimmg.app.models.RealmModels.CategoryRealmModel;
-import akinyele.com.wimmg.ext.Const;
-import akinyele.com.wimmg.ext.utils.Utils;
+import akinyele.com.wimmg.ext.Constants;
 import akinyele.com.wimmg.fragments.trackerFragment.adapter.CustomSpinnerAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -146,7 +144,7 @@ public class AddItemDialogView extends FrameLayout implements TimePickerDialog.O
     //          Helpers
     //==============================================================================================
     private String getDateString(int year, int month, int dayOfMonth) {
-        String monthString = Const.month[month];
+        String monthString = Constants.month[month];
         return monthString + " " + dayOfMonth + ", " + year;
     }
 

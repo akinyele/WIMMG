@@ -1,6 +1,7 @@
 package akinyele.com.wimmg.fragments.trackerFragment.views;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +14,7 @@ import com.rtugeek.android.colorseekbar.ColorSeekBar;
 
 import akinyele.com.wimmg.R;
 import akinyele.com.wimmg.app.models.RealmModels.CategoryRealmModel;
+import akinyele.com.wimmg.ext.utils.ScreenUtils;
 import akinyele.com.wimmg.fragments.trackerFragment.adapter.CategoriesAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,34 +56,29 @@ public class CreateCategoryDialog extends FrameLayout implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable editable) {
-
     }
 
     //==============================================================================================
     //              SETUP
     //==============================================================================================
     public void init() {
-
-
         mCategoryEditText.addTextChangedListener(this);
-        mCategoryNameText.setText("A");
-
         mColorSeekBar.setOnColorChangeListener((colorBarPosition, alphaBarPosition, color) -> {
-
-            //mCategoryColorView.setBackgroundTintList(getContext().getColorStateList(color));
-            mCategoryNameText.setTextColor(color);
-
+            mCategoryColorView.setBackgroundColor(color);
+            //mCategoryColorView.setBackgroundTintList(ScreenUtils.getSimpleColorStateList(new int[]{color}));
         });
-
     }
 
 
     //==============================================================================================
     //              Helpers
     //==============================================================================================
-    public CategoryRealmModel getCategory() {
-        return categoriesAdapter.getSelectedCategory();
+    public Integer getColor() {
+        return mCategoryColorView.getSolidColor();
     }
 
+    public String getName() {
+        return mCategoryEditText.getText().toString().trim();
+    }
 
 }

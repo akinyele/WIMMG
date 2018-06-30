@@ -3,21 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     android:orientation="vertical">
 
     <include layout="@layout/view_budget_info" />
 
 
-    <View
+    <akinyele.com.wimmg.fragments.trackerFragment.views.DateSelectionView
+        android:id="@+id/date_selection_view"
         android:layout_width="match_parent"
-        android:layout_height="55dp" />
+        android:layout_height="wrap_content" />
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_budget"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_buget_category_item" />
+        tools:listitem="@layout/item_budget_category_item" />
 
 
 </LinearLayout>

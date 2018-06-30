@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Currency;
 import java.util.Locale;
 
-import akinyele.com.wimmg.ext.Const;
+import akinyele.com.wimmg.ext.Constants;
 
 /**
  * Created by akiny on 5/23/2018.
@@ -13,14 +13,17 @@ import akinyele.com.wimmg.ext.Const;
 public class Utils {
 
 
-    public static String decimalFormat(Double cost) {
+    public static String decimalFormat(Double cost, boolean currencySymbol) {
+
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
-        df.setCurrency(Currency.getInstance(Locale.getDefault()));
+        df.setCurrency(Currency.getInstance(Locale.US));
 
         boolean numberIsIrrational = (cost % 1 > 0);
         if (numberIsIrrational)
             df.setMinimumFractionDigits(2);
+
+        if (currencySymbol) return "$" + df.format(cost);
 
         return df.format(cost);
     }
@@ -30,11 +33,11 @@ public class Utils {
     //              Date Utils
     //==============================================================================================
     public static String getDateString(int year, int month, int dayOfMonth) {
-        String monthString = Const.month[month];
+        String monthString = Constants.month[month];
         return monthString + " " + dayOfMonth + ", " + year;
     }
 
-    public static Calendar getCalandar(int year, int month, int dayOfMonth) {
+    public static Calendar getCalender(int year, int month, int dayOfMonth) {
         Calendar calendar = Calendar.getInstance();
 
         calendar.set(Calendar.YEAR, year);

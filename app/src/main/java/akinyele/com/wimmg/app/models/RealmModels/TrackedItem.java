@@ -70,6 +70,9 @@ public class TrackedItem extends RealmObject {
         this.timeOfDay = timeOfDay;
     }
 
+    public String getId() {
+        return id;
+    }
 
     public static class Builder {
 

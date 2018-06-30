@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
@@ -15,6 +16,7 @@ import com.azoft.carousellayoutmanager.CenterScrollListener;
 
 import akinyele.com.wimmg.R;
 import akinyele.com.wimmg.app.models.RealmModels.CategoryRealmModel;
+import akinyele.com.wimmg.ext.utils.RealmUtils;
 import akinyele.com.wimmg.fragments.trackerFragment.adapter.CategoriesAdapter;
 import akinyele.com.wimmg.fragments.trackerFragment.views.CreateCategoryDialog;
 import butterknife.BindView;
@@ -72,15 +74,31 @@ public class CreateBudgetDialog extends FrameLayout {
     @OnClick(R.id.text_add_new_category)
     public void addNewCategory() {
 
-        CreateCategoryDialog dialogView = new CreateCategoryDialog(getContext());
+        CreateCategoryDialog createCategoryDialog = new CreateCategoryDialog(getContext());
 
         new MaterialDialog.Builder(getContext())
                 .title("New Category")
                 .autoDismiss(false)
-                .customView(dialogView, false)
+                .customView(createCategoryDialog, false)
                 .onPositive(
                         (dialog, which) -> {
+
+                            CategoryRealmModel categoryRealmModel = new CategoryRealmModel();
+                            String name = createCategoryDialog.getName();
+                            Integer color = createCategoryDialog.getColor();
+
+                            if (name.isEmpty()) {
+                                Toast.makeText(getContext(), "Please set a name for the category", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            categoryRealmModel.setName(name);
+                            categoryRealmModel.setColor(color);
+                            categoryRealmModel.setImage(0);
+
+                            RealmUtils.saveCategoryItem(categoryRealmModel);
                             dialog.dismiss();
+
                         }
                 )
                 .onNegative(

@@ -6,16 +6,14 @@ import android.util.Log;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 import akinyele.com.wimmg.R;
 import akinyele.com.wimmg.app.models.RealmModels.BudgetRealmModel;
 import akinyele.com.wimmg.app.models.RealmModels.CategoryRealmModel;
 import akinyele.com.wimmg.app.models.RealmModels.TrackedItem;
-import akinyele.com.wimmg.ext.Const;
+import akinyele.com.wimmg.ext.Constants;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
@@ -29,11 +27,8 @@ public class RealmUtils {
 
     private static Realm mRealm;
 
+    private static RealmConfiguration mConfiguration = Realm.getDefaultConfiguration();
 
-    public static final int DAY_FILTER = 0;
-    public static final int WEEK_FILTER = 1;
-    public static final int MONTH_FILTER = 2;
-    public static final int YEAR_FILTER = 3;
 
     //==============================================================================================
     //          Tracked Items
@@ -64,13 +59,23 @@ public class RealmUtils {
         return mRealm.where(TrackedItem.class).equalTo("name", name).findFirst();
     }
 
+    public static void removeTrackedItem(TrackedItem trackedItem) {
+        mRealm = Realm.getInstance(mConfiguration);
+        try {
+            mRealm.where(BudgetRealmModel.class).equalTo("id", trackedItem.getId()).findFirst();
+        } catch (NullPointerException ignored) {
+            Log.e(TAG, "removeBudgetItem: failed to remove item", ignored);
+        }
+    }
+
     public static ArrayList<TrackedItem> getTrackedItemForCategory(String categoryName) {
-        mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
+        mRealm = Realm.getInstance(mConfiguration);
 
         return new ArrayList<>(mRealm.where(TrackedItem.class)
                 .equalTo("category.name", categoryName)
                 .findAll());
     }
+
 
     //==============================================================================================
     //          Categories
@@ -80,6 +85,13 @@ public class RealmUtils {
         return mRealm.where(CategoryRealmModel.class).findAll().sort("name");
     }
 
+    public static void saveCategoryItem(CategoryRealmModel categoryRealmModel) {
+        mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
+
+        mRealm.executeTransactionAsync(realm -> {
+            realm.copyToRealmOrUpdate(categoryRealmModel);
+        });
+    }
 
     //==============================================================================================
     //          Budget Item
@@ -93,11 +105,27 @@ public class RealmUtils {
         );
     }
 
-    public static ArrayList<BudgetRealmModel> getBugetItems() {
+    public void removeBudgetItem(String categoryName) {
+        mRealm = Realm.getInstance(mConfiguration);
+        try {
+            mRealm.where(BudgetRealmModel.class).equalTo("category.name", categoryName).findFirst().deleteFromRealm();
+        } catch (NullPointerException ignored) {
+            Log.e(TAG, "removeBudgetItem: failed to remove item", ignored);
+        }
+    }
+
+    public static ArrayList<BudgetRealmModel> getBudgetItems() {
         mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
         return new ArrayList<>(mRealm.where(BudgetRealmModel.class).findAll());
     }
 
+
+    public static BudgetRealmModel getBudgetItem(String categoryName) {
+        mRealm = Realm.getInstance(mConfiguration);
+
+        return mRealm.where(BudgetRealmModel.class).equalTo("category.name", categoryName)
+                .findFirst();
+    }
 
     //==============================================================================================
     //          Init
@@ -106,8 +134,8 @@ public class RealmUtils {
 
         mRealm = Realm.getInstance(Realm.getDefaultConfiguration());
         String[] categories = context.getResources().getStringArray(R.array.budget_categories);
-        HashMap<String, Integer> colorHash = Const.getCategoriesColorHashTable();
-        HashMap<String, Integer> imageHash = Const.getCategoriesImagesHashTable();
+        HashMap<String, Integer> colorHash = Constants.getCategoriesColorHashTable();
+        HashMap<String, Integer> imageHash = Constants.getCategoriesImagesHashTable();
 
         mRealm.executeTransaction(
                 realm -> {
@@ -154,43 +182,6 @@ public class RealmUtils {
         return groupedTrackedItems;
     }
 
-    public static ArrayList<TrackedItem> getFilteredTrackedItems(ArrayList<TrackedItem> trackedItems, int filter) {
-
-        ArrayList<TrackedItem> filtered = new ArrayList<>();
-
-        for (TrackedItem item : trackedItems) {
-
-            String[] date = item.getDateBought().split("/");
-            int dayOfMonth = Integer.valueOf(date[0]);
-            int month = Integer.valueOf(date[1]);
-            int year = Integer.valueOf(date[2]);
-
-            Calendar dateBought = Utils.getCalandar(year, month, dayOfMonth);
-            Calendar today = Calendar.getInstance();
-
-            boolean sameDay = (dateBought.get(Calendar.YEAR) == today.get(Calendar.YEAR)
-                    && dateBought.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH)
-                    && dateBought.get(Calendar.MONTH) == today.get(Calendar.MONTH));
-
-            switch (filter) {
-                case DAY_FILTER:
-                    if (sameDay) filtered.add(item);
-                    break;
-                case WEEK_FILTER:
-                    if (Utils.isSameWeek(dateBought)) filtered.add(item);
-                    break;
-                case MONTH_FILTER:
-                    if (Utils.isSameMonth(dateBought)) filtered.add(item);
-                    break;
-                case YEAR_FILTER:
-                    if (Utils.isSameYear(dateBought)) filtered.add(item);
-                    break;
-            }
-
-        }
-
-        return filtered;
-    }
 
     public static double getTotal(ArrayList<TrackedItem> trackedItems) {
         double total = 0;
@@ -200,4 +191,6 @@ public class RealmUtils {
         }
         return total;
     }
+
+
 }

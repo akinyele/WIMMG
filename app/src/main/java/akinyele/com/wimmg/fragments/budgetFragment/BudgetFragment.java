@@ -17,21 +17,22 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.w3c.dom.Text;
 
 import akinyele.com.wimmg.R;
 import akinyele.com.wimmg.app.models.RealmModels.BudgetRealmModel;
 import akinyele.com.wimmg.app.models.RealmModels.CategoryRealmModel;
 import akinyele.com.wimmg.app.models.RealmModels.TrackedItem;
+import akinyele.com.wimmg.ext.utils.FilterUtils;
 import akinyele.com.wimmg.ext.utils.RealmUtils;
 import akinyele.com.wimmg.ext.utils.ScreenUtils;
 import akinyele.com.wimmg.fragments.budgetFragment.adapter.BudgetAdapter;
 import akinyele.com.wimmg.fragments.budgetFragment.views.CreateBudgetDialog;
+import akinyele.com.wimmg.fragments.trackerFragment.views.DateSelectionView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class BudgetFragment extends Fragment {
+public class BudgetFragment extends Fragment implements DateSelectionView.OnFilterSelectedListener {
 
 
     @BindView(R.id.fab_add_budget)
@@ -46,6 +47,8 @@ public class BudgetFragment extends Fragment {
     TextView mTextBudgetTitle;
     @BindView(R.id.recycler_view_budget)
     RecyclerView mBudgetRecyclerView;
+    @BindView(R.id.date_selection_view)
+    DateSelectionView mDateSelectionView;
 
     private BudgetAdapter adapter;
 
@@ -66,17 +69,22 @@ public class BudgetFragment extends Fragment {
         init();
     }
 
-    //==============================================================================================
-    //              Setup
-    //==============================================================================================
-    public void init() {
-
-        adapter = new BudgetAdapter(getContext());
-        mBudgetRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        mBudgetRecyclerView.setAdapter(adapter);
-
-        adapter.setData(RealmUtils.getBugetItems());
-
+    @Override
+    public void onFilterSelected(int selectedFiler) {
+        switch (selectedFiler) {
+            case DateSelectionView.DAY:
+                adapter.setFilter(FilterUtils.DAY_FILTER);
+                break;
+            case DateSelectionView.WEEK:
+                adapter.setFilter(FilterUtils.WEEK_FILTER);
+                break;
+            case DateSelectionView.MONTH:
+                adapter.setFilter(FilterUtils.MONTH_FILTER);
+                break;
+            case DateSelectionView.YEAR:
+                adapter.setFilter(FilterUtils.YEAR_FILTER);
+                break;
+        }
     }
 
     //==============================================================================================
@@ -87,7 +95,7 @@ public class BudgetFragment extends Fragment {
 
         CreateBudgetDialog createBudgetView = new CreateBudgetDialog(getContext());
 
-        MaterialDialog materialDialog = new MaterialDialog.Builder(getContext())
+        new MaterialDialog.Builder(getContext())
                 .title("Create your budget")
                 .positiveText("add budget")
                 .negativeText("cancel")
@@ -116,27 +124,56 @@ public class BudgetFragment extends Fragment {
                             BudgetRealmModel budgetRealmModel = new BudgetRealmModel();
                             budgetRealmModel.setAmount(budgetAmount);
                             budgetRealmModel.setCategory(categoryRealmModel);
-                            budgetRealmModel.setCategoryName(categoryRealmModel.getName());
                             RealmUtils.saveBudgetItem(budgetRealmModel);
 
                             dialog.dismiss();
                         }
                 )
                 .show();
+    }
+
+
+    //==============================================================================================
+    //              Setup
+    //==============================================================================================
+    public void init() {
+
+        adapter = new BudgetAdapter(getContext());
+        mBudgetRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        mBudgetRecyclerView.setAdapter(adapter);
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                setUpBudgetView();
+            }
+        });
+
+        adapter.setData(RealmUtils.getBudgetItems());
+        mDateSelectionView.setOnFilterSelectedListener(this);
+
+        setUpBudgetView();
 
     }
 
+    public void setUpBudgetView() {
+
+        mTotalBudgetTextView.setText(adapter.getTotalBudget());
+        mTransactionAmountTextView.setText(adapter.getTransactionsAmount());
+        mBudgetAmountSpentTextView.setText(adapter.getBudgetSpent());
+
+    }
 
     //==============================================================================================
     //         Event
     //==============================================================================================
     @Subscribe
     public void budgetEvent(BudgetRealmModel budgetRealmModel) {
-        adapter.setData(RealmUtils.getBugetItems());
+        adapter.setData(RealmUtils.getBudgetItems());
     }
 
     @Subscribe
-    public void trackedItem(TrackedItem trackedItem) {
+    public void trackedItem(TrackedItem item) {
         adapter.notifyDataSetChanged();
     }
 }

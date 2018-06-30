@@ -1,6 +1,7 @@
 package akinyele.com.wimmg.fragments.trackerFragment.views;
 
 import android.content.Context;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -47,7 +48,6 @@ public class DateSelectionView extends FrameLayout {
     public void setUp() {
         inflate(getContext(), R.layout.view_date_filter_view, this);
         ButterKnife.bind(this);
-
         setFilter(DAY);
     }
 
@@ -133,6 +133,10 @@ public class DateSelectionView extends FrameLayout {
     //==============================================================================================
     public int getSelectedFilter() {
         return selectedFilter;
+    }
+
+    public void setTextColor(@ColorRes int color) {
+        //mDayTextSwitcher
     }
 
     //==============================================================================================

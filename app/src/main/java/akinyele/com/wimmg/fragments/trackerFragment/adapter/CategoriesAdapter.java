@@ -1,6 +1,7 @@
 package akinyele.com.wimmg.fragments.trackerFragment.adapter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,13 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import akinyele.com.wimmg.R;
 import akinyele.com.wimmg.app.models.RealmModels.CategoryRealmModel;
-import akinyele.com.wimmg.ext.Const;
 import akinyele.com.wimmg.ext.utils.RealmUtils;
+import akinyele.com.wimmg.ext.utils.ScreenUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -59,7 +59,13 @@ public class CategoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
 
             mHolder.categoryText.setText(category.getName());
-            mHolder.categoryImage.setImageDrawable(mContext.getDrawable(category.getImage()));
+
+            if (category.getImage() != 0) {
+                mHolder.categoryImage.setImageDrawable(mContext.getDrawable(category.getImage()));
+            } else {
+                ColorStateList stateList = ScreenUtils.getSimpleColorStateList(new int[]{category.getColor()});
+            }
+
             mHolder.categoryImage.setBackgroundTintList(mContext.getColorStateList(category.getColor()));
 
         }

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 
 import akinyele.com.wimmg.app.models.RealmModels.TrackedItem;
 import akinyele.com.wimmg.ext.utils.CalcUtils;
+import akinyele.com.wimmg.ext.utils.FilterUtils;
 import akinyele.com.wimmg.ext.utils.RealmUtils;
 import akinyele.com.wimmg.ext.utils.Utils;
 import akinyele.com.wimmg.fragments.BaseFragment;
@@ -168,7 +170,7 @@ public class TrackerFragment extends BaseFragment implements DateSelectionView.O
     //==============================================================================================
     private void setSpendingData(ArrayList<TrackedItem> trackedItems) {
         double cost = CalcUtils.getTrackedItemsTotal(trackedItems);
-        mTotalText.setText(Utils.decimalFormat(cost));
+        mTotalText.setText(Utils.decimalFormat(cost, true));
 
         String mTransactionAmount = String.valueOf(trackedItems.size());
         mTransactionAmountText.setText(mTransactionAmount);
@@ -180,16 +182,16 @@ public class TrackerFragment extends BaseFragment implements DateSelectionView.O
 
         switch (filter) {
             case DateSelectionView.DAY:
-                itemAdapter.setData(RealmUtils.getFilteredTrackedItems(trackedItems, RealmUtils.DAY_FILTER));
+                itemAdapter.setData(FilterUtils.filterTrackItems(trackedItems, FilterUtils.DAY_FILTER));
                 break;
             case DateSelectionView.MONTH:
-                itemAdapter.setData(RealmUtils.getFilteredTrackedItems(trackedItems, RealmUtils.MONTH_FILTER));
+                itemAdapter.setData(FilterUtils.filterTrackItems(trackedItems, FilterUtils.MONTH_FILTER));
                 break;
             case DateSelectionView.WEEK:
-                itemAdapter.setData(RealmUtils.getFilteredTrackedItems(trackedItems, RealmUtils.WEEK_FILTER));
+                itemAdapter.setData(FilterUtils.filterTrackItems(trackedItems, FilterUtils.WEEK_FILTER));
                 break;
             case DateSelectionView.YEAR:
-                itemAdapter.setData(RealmUtils.getFilteredTrackedItems(trackedItems, RealmUtils.YEAR_FILTER));
+                itemAdapter.setData(FilterUtils.filterTrackItems(trackedItems, FilterUtils.YEAR_FILTER));
                 break;
         }
     }

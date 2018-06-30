@@ -54,7 +54,7 @@ public class TrackedItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             String name = trackedItem.getName();
             Double totalCost = RealmUtils.getTotal(mGroupedItems.get(position));
 
-            mHolder.mCost.setText(Utils.decimalFormat(totalCost));
+            mHolder.mCost.setText(Utils.decimalFormat(totalCost, true));
             mHolder.mNameText.setText(name);
             String transactions = mGroupedItems.get(position).size() + " transactions";
             mHolder.mTransactionAmount.setText(transactions);
