@@ -18,7 +18,7 @@
 
             <TextView
                 android:id="@+id/text_budget_title"
-                style="@style/TextAppearance.AppCompat.Headline"
+                style="@style/TextHeading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -44,7 +44,7 @@
 
             <TextView
                 android:id="@+id/text_amount_spent"
-                style="@style/TextAppearance.AppCompat.Headline"
+                style="@style/TextHeading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="13dp" />
+                app:layout_constraintGuide_begin="0dp" />
 
 
         </android.support.constraint.ConstraintLayout>
